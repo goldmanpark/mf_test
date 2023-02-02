@@ -1,24 +1,26 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { ModuleFederationPlugin } = require('webpack').container
+const { dependencies } = require("./package.json");
 
 const getAbsolutePath = (pathDir) => path.resolve(__dirname, pathDir);
 
 module.exports = () => {
   return {
-    entry: getAbsolutePath('src/index.js'),
+    entry: './src/index.js',
     output: {
-      path: getAbsolutePath('public'),
-      filename: '[name].js',
-      publicPath: '/',
+      publicPath: 'http://localhost:1002/',
+      clean: true,
     },
     mode: 'development',
+    devtool: 'hidden-source-map',
+    target: "web",
     devServer: {
       port: 1002
     },
     module: {
       rules: [
-        // js, ts react loader
+        // js react loader
         {
           test: /\.(js|jsx)?$/i,
           exclude: /node_modules/,
@@ -48,11 +50,10 @@ module.exports = () => {
         },
         filename: 'remoteEntry.js',
         shared: {
-          'react' : { requiredVersion: '^18.2.0', eager: true },
-          'react-dom' : '^18.2.0', 
-          'typescript' : '^4.9.5'
+          ...dependencies, 
+          'react' : { requiredVersion: '^18.2.0', eager: true, singleton: true },
+          'react-dom' : { requiredVersion: '^18.2.0', singleton: true }
         }
-        //shared: { react: { singleton: true }, "react-dom": { singleton: true } }
       }),
       new HtmlWebpackPlugin({
         template: getAbsolutePath('public/index.html'),

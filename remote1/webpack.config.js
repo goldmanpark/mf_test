@@ -6,13 +6,13 @@ const getAbsolutePath = (pathDir) => path.resolve(__dirname, pathDir);
 
 module.exports = () => {
   return {
-    entry: getAbsolutePath('src/index.js'),
+    entry: './src/index.js',
     output: {
-      path: getAbsolutePath('public'),
-      filename: '[name].js',
-      publicPath: '/',
+      publicPath: 'http://localhost:1001/',
+      clean: true,
     },
     mode: 'development',
+    devtool: 'hidden-source-map',
     devServer: {
       port: 1001
     },
@@ -74,11 +74,10 @@ module.exports = () => {
         },
         filename: 'remoteEntry.js',
         shared: {
-          'react' : { requiredVersion: '^18.2.0', eager: true },
-          'react-dom' : '^18.2.0', 
+          'react' : { requiredVersion: '^18.2.0', eager: true, singleton: true },
+          'react-dom' : { requiredVersion: '^18.2.0', singleton: true },
           'typescript' : '^4.9.5'
         }
-        //shared: { react: { singleton: true }, "react-dom": { singleton: true } }
       }),
       new HtmlWebpackPlugin({
         template: getAbsolutePath('public/index.html'),

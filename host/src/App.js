@@ -1,31 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import './App.css';
 import GetTime from './components/GetTime.js';
-import DynamicLoader from './components/DynamicLoader';
+//import DynamicLoader from './components/DynamicLoader';
 
-export default function App() {
-  const mList = [
-    {remote: 'remote1', module: 'csharp'},
-    {remote: 'remote1', module: 'python'},
-    {remote: 'remote2', module: 'test1'},
-    {remote: 'remote2', module: 'test2'},
-  ];
+const mList = [
+  'remote1/csharp',
+  'remote1/python',
+  'remote2/test1',
+  'remote2/test2'
+];
 
-  const [currentModule, setCurrentModule] = useState('');
+//const mDic = new Map();
+const mDic = {
+  'remote1/csharp' : React.lazy(() => import('remote1/csharp')),
+  'remote1/python': React.lazy(() => import('remote1/python')),
+  'remote2/test1': React.lazy(() => import('remote2/test1')),
+  'remote2/test2': React.lazy(() => import('remote2/test2'))
+}
+
+export default function App() {  
+  const [selectedKey, setSelectedKey] = useState('');
+
+  // useEffect(() => {
+  //   mList.forEach(key => {
+  //     mDic.set(key, React.lazy(() => import(`${key}`)))
+  //   });
+  // }, []);
+
+  const renderComponent = () => {
+    if(selectedKey){
+      const DynamicLoader = mDic[selectedKey];
+      return <DynamicLoader/>
+    } else {
+      return <span>NOTHING SELECTED</span>
+    }    
+  }
 
   return (
     <div className='host_main'>
       <header className='host_header'>
         {
           mList.map(x =>{
-            return <button onClick={() => setCurrentModule(x)}>
-              {x.remote + " : " + x.module}
+            return <button onClick={() => setSelectedKey(x)}>
+              { x }
             </button>
           })
         }
       </header>
       <section>
-        <DynamicLoader currentModule={currentModule}/>
+        <Suspense fallback={<span>Loading...</span>}>
+          { renderComponent() }
+        </Suspense>        
       </section>
       <footer className='host_footer'>
         <GetTime title={'HOST'}/>
