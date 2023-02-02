@@ -9,18 +9,18 @@ module.exports = () => {
     entry: getAbsolutePath('src/index.js'),
     output: {
       path: getAbsolutePath('public'),
-      filename: 'bundle.js',
+      filename: '[name].js',
       publicPath: '/',
     },
     mode: 'development',
     devServer: {
-      port: 1000
+      port: 1002
     },
     module: {
       rules: [
         // js, ts react loader
         {
-          test: /\.(js|jsx|ts|tsx)?$/i,
+          test: /\.(js|jsx)?$/i,
           exclude: /node_modules/,
           use: [
             {
@@ -28,43 +28,23 @@ module.exports = () => {
               options: {
                 presets: [
                   ['@babel/preset-react', {"runtime": "automatic"}],
-                  "@babel/preset-env",
-                  "@babel/preset-typescript",
+                  "@babel/preset-env"
                 ],
               },
             }
           ]
-        },
-        // css
-        {
-          test: /\.css$/i,
-          exclude: /\.module\.css$/i, // 모듈 파일 제외 설정
-          use: ['style-loader', 'css-loader'],
-        },
-        // css module
-        {
-          test: /\.module\.css$/i,
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-              },
-            },
-          ],
         }
       ],
     },
     resolve: {
-      extensions: ['.js', '.jsx', '.json', '.ts', 'tsx']
+      extensions: ['.js', '.jsx', '.json']
     },
     plugins: [
       new ModuleFederationPlugin({
-        name: 'host',
-        remotes: {
-          remote1: 'remote1@http://localhost:1001/remoteEntry.js',
-          remote2: 'remote2@http://localhost:1002/remoteEntry.js'
+        name: 'remote2',
+        exposes: {
+          './test1' : './src/components/test1.js',
+          './test2' : './src/components/test2.js',
         },
         filename: 'remoteEntry.js',
         shared: {
@@ -76,7 +56,6 @@ module.exports = () => {
       }),
       new HtmlWebpackPlugin({
         template: getAbsolutePath('public/index.html'),
-        favicon: getAbsolutePath('public/favicon.ico')
       }),
     ],
   }
