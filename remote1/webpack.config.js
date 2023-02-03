@@ -68,6 +68,9 @@ module.exports = () => {
     plugins: [
       new ModuleFederationPlugin({
         name: 'remote1',
+        remotes:{
+          'host' : 'host@http://localhost:1000/remoteEntry.js'
+        },
         exposes: {
           './csharp' : './src/components/csharp.tsx',
           './python' : './src/components/python.tsx',

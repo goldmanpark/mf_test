@@ -44,6 +44,9 @@ module.exports = () => {
     plugins: [
       new ModuleFederationPlugin({
         name: 'remote2',
+        remotes:{
+          'host' : 'host@http://localhost:1000/remoteEntry.js'
+        },
         exposes: {
           './test1' : './src/components/test1.js',
           './test2' : './src/components/test2.js',

@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import './App.css';
 import GetTime from './components/GetTime.js';
-//import DynamicLoader from './components/DynamicLoader';
 
 const mList = [
   'remote1/csharp',
@@ -10,7 +9,6 @@ const mList = [
   'remote2/test2'
 ];
 
-//const mDic = new Map();
 const mDic = {
   'remote1/csharp' : React.lazy(() => import('remote1/csharp')),
   'remote1/python': React.lazy(() => import('remote1/python')),
@@ -20,12 +18,6 @@ const mDic = {
 
 export default function App() {  
   const [selectedKey, setSelectedKey] = useState('');
-
-  // useEffect(() => {
-  //   mList.forEach(key => {
-  //     mDic.set(key, React.lazy(() => import(`${key}`)))
-  //   });
-  // }, []);
 
   const renderComponent = () => {
     if(selectedKey){

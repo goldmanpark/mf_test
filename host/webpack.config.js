@@ -8,18 +8,13 @@ const getAbsolutePath = (pathDir) => path.resolve(__dirname, pathDir);
 module.exports = () => {
   return {
     entry: './src/index.js',
-    // output: {
-    //   path: getAbsolutePath('public'),
-    //   filename: 'bundle.js',
-    //   publicPath: '/',
-    // },
-    mode: 'development',
-    devtool: 'hidden-source-map',
-    target: "web",
     output: {
       publicPath: 'http://localhost:1000/',
       clean: true,
     },
+    mode: 'development',
+    devtool: 'hidden-source-map',
+    target: "web",    
     devServer: {
       port: 1000
     },
@@ -73,6 +68,9 @@ module.exports = () => {
         remotes: {
           'remote1' : 'remote1@http://localhost:1001/remoteEntry.js',
           'remote2' : 'remote2@http://localhost:1002/remoteEntry.js'
+        },
+        exposes:{
+          './getTime' : './src/components/GetTime.js'
         },
         filename: 'remoteEntry.js',
         shared: {
