@@ -5,6 +5,7 @@ import GetTime from './components/GetTime.js';
 const mList = [
   'remote1/csharp',
   'remote1/python',
+  'remote1/mixTest',
   'remote2/test1',
   'remote2/test2'
 ];
@@ -12,6 +13,7 @@ const mList = [
 const mDic = {
   'remote1/csharp' : React.lazy(() => import('remote1/csharp')),
   'remote1/python': React.lazy(() => import('remote1/python')),
+  'remote1/mixTest': React.lazy(() => import('remote1/mixTest')),
   'remote2/test1': React.lazy(() => import('remote2/test1')),
   'remote2/test2': React.lazy(() => import('remote2/test2'))
 }

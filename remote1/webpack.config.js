@@ -74,6 +74,7 @@ module.exports = () => {
         exposes: {
           './csharp' : './src/components/csharp.tsx',
           './python' : './src/components/python.tsx',
+          './mixTest' : './src/components/mixTest.js',
         },
         filename: 'remoteEntry.js',
         shared: {

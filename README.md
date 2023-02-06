@@ -3,7 +3,7 @@ webpack기초, react심화 공부를 겸함
 
 #### 현재까지 완료한 기능들
 - host <-> remote 모듈 공유
-- typescript <-> javascript 호환
+- typescript <-> javascript 파일 간 호환
 - 기본 react모듈 share
 
 #### 실패(불가능)한 기능들
@@ -12,5 +12,5 @@ webpack기초, react심화 공부를 겸함
 
 #### 앞으로 추가할 기능들
 - host를 정점으로 하는 redux 체계
-- remote app이 꺼져 있어도 host는 작동하게끔
+- remote app이 꺼져 있어도 host는 작동하게끔(dynamic remote)
 - 간이 nodejs서버를 이용하여 세션 테스트
